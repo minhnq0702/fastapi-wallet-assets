@@ -1,4 +1,3 @@
-"""Main application module."""
 # -*- coding: utf-8 -*-
 from contextlib import asynccontextmanager
 
