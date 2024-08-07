@@ -1,2 +1,2 @@
-"""Import all service modules."""
-from . import user_svc
+"""Service module."""
+# -*- encoding: utf-8 -*-

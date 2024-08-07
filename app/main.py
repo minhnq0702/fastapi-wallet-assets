@@ -10,11 +10,13 @@ from app.repo.database import db
 
 
 @asynccontextmanager
+# pylint: disable=unused-argument
 async def lifespan(fastapp: FastAPI):
     """
     Init database connection.
     """
     await db.connect()
+    print('=====>lifespan: Connect to database')
     yield
     await db.disconnect()
 
