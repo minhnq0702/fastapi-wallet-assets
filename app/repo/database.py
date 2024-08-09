@@ -21,14 +21,6 @@ DBSession = async_sessionmaker(
     bind=engine,
     class_=AsyncSession
 )
-# Base = declarative_base(metadata=DBMetadata)
-
-async def inti_db():
-    """
-    INIT DB
-    """
-    # SQLModel.metadata.create_all(engine)
-
 
 
 async def get_tx() -> AsyncGenerator[AsyncSession, Any]:

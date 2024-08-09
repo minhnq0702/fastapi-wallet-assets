@@ -5,7 +5,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.graphql import schema
-from app.repo.database import inti_db
 
 # from app.repo.database import db
 
@@ -16,8 +15,7 @@ async def lifespan(fastapp: FastAPI):
     """
     Init database connection.
     """
-    res = inti_db()
-    print('=====>lifespan: Connect to database')
+    # TODO do something on life-cycle
     yield
     # await db.disconnect()
 

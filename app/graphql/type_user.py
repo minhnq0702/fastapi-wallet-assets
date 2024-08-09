@@ -10,7 +10,7 @@ from app.svc.user_svc import create_user as svc_create_user
 
 @strawberry.type
 class UserType:
-    """User object schema."""
+    """User schema."""
     id: typing.Optional[int]
     username: str
     password: str
@@ -18,8 +18,11 @@ class UserType:
 
 
 @strawberry.input
-class CreateUserType(UserType):
-    """User object schema."""
+class CreateUserType:
+    """Create user object."""
+    username: str
+    password: str
+    email: str
 
 
 async def list_user() -> typing.List[UserType]:
