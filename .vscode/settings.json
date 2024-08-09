@@ -3,6 +3,9 @@
     "python.analysis.autoImportCompletions": true,
     "[python]": {
         "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.rulers": [
+            120
+        ]
     },
     "autopep8.args": [
         "--max-line-length=120"
