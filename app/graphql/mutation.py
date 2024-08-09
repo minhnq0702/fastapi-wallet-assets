@@ -1,16 +1,21 @@
 # -*- encoding: utf-8 -*-
+import datetime
+import logging
 import typing
 
 import strawberry
 
-from app.graphql.type_user import CreateUserType, UserType, create_user
+from app.graphql import JSON
+from app.graphql.type_user import UserType, create_user
+
+_logger = logging.getLogger(__name__)
 
 
 @strawberry.type
 class Mutation:
     """GraphQL mutation object."""
     @strawberry.mutation
-    def ping(self, notify: str | None = 'test') -> None:
+    def ping(self, notify: str | None = 'test') -> JSON:
         """Ping GraphQL server
 
         Args:
@@ -18,7 +23,11 @@ class Mutation:
 
         Returns:
         """
-        print("ping", notify)
+        _logger.info(".....ping %s", notify)
+        return JSON({
+            "status": "successfully",
+            "time": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%s")
+        })
 
     # createUsers: typing.Annotated[typing.Union[UserType, None], "Created user"] = strawberry.mutation(
     #     resolver=create_user,

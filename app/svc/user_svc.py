@@ -22,17 +22,12 @@ async def create_user(username: str, password: str, email: str) -> Users:
     return res
 
 
-async def get_users() -> typing.List[Users]:
+async def get_users(user_ids: list[int]) -> typing.List[Users]:
     """
     Retrieve a list of users.
 
     Returns:
         List[User]: A list of User objects representing the users.
     """
-    # await create_user('test', 'adsf', 'adsf')
-    u1 = Users(id=1, username="minhnq", password="password1", email="minhnq@gmail.com")
-    u2 = Users(id=2, username="trangntt", password="password1", email="minhnq@gmail.com")
-    return [
-        u1,
-        u2,
-    ]
+    res = await user_repo.get_users(user_ids)
+    return res
