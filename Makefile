@@ -12,3 +12,10 @@ add-migration:
 	alembic revision -m $(name)
 	
 
+run:
+	$(PYTHON) -m uvicorn app.main:app --reload
+	# fastapi dev app/main.py
+
+run-live:
+	$(PYTHON) -m uvicorn app.main:app --workers 2
+	# fastapi run app/main.py
