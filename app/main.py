@@ -5,7 +5,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.graphql import schema
-from app.repo.database import db
+from app.repo.database import inti_db
+
+# from app.repo.database import db
 
 
 @asynccontextmanager
@@ -14,10 +16,10 @@ async def lifespan(fastapp: FastAPI):
     """
     Init database connection.
     """
-    await db.connect()
+    res = inti_db()
     print('=====>lifespan: Connect to database')
     yield
-    await db.disconnect()
+    # await db.disconnect()
 
 app = FastAPI(lifespan=lifespan)
 app.add_middleware(
@@ -28,7 +30,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.include_router(schema.GraphQL_App, prefix="/graphql", tags=["graphql"])
+app.include_router(schema.GraphQLRoute, prefix="/graphql", tags=["graphql"])
 
 
 @app.get("/")

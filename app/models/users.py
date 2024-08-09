@@ -1,12 +1,12 @@
 """Model users Definition"""
-from sqlalchemy import Column, Integer, String
+import typing
 
-from app.repo.database import Base
+from sqlmodel import Field, SQLModel
 
 
-class Users(Base):
+class Users(SQLModel, table=True):
     """Users model"""
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    password = Column(String)
+    id: typing.Optional[int] = Field(default=None, primary_key=True)
+    username: str
+    password: str
+    email: str

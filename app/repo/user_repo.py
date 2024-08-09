@@ -4,7 +4,7 @@ from app.models.users import Users
 from app.repo import database
 
 
-async def create_user(username: str, password: str) -> Users:
+async def create_user(username: str, password: str, email: str) -> Users:
     """Create a new user
 
     Args:
@@ -16,7 +16,7 @@ async def create_user(username: str, password: str) -> Users:
     """
     dbc = database.get_tx()
     db = await anext(dbc)
-    user = Users(username=username, password=password)
+    user = Users(username=username, password=password, email=email)
     db.add(user)
     await db.commit()
     await db.refresh(user)

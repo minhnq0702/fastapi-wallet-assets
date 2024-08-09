@@ -1,2 +1,2 @@
-"""Init application import"""
+"""FastAPI Application"""
 from . import main

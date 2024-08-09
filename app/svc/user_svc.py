@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 import typing
 
-from app.graphql.user import User
+from app.models.users import Users
 from app.repo import user_repo
 
 
-async def create_user(username: str, password: str, email: str) -> User:
+async def create_user(username: str, password: str, email: str) -> Users:
     """
     Create a new user.
 
@@ -18,19 +18,21 @@ async def create_user(username: str, password: str, email: str) -> User:
     Returns:
         User: A User object representing the user.
     """
-    res = await user_repo.create_user(username='test', password='adsf')
+    res = await user_repo.create_user(username=username, password=password, email=email)
     return res
 
 
-async def get_users() -> typing.List[User]:
+async def get_users() -> typing.List[Users]:
     """
     Retrieve a list of users.
 
     Returns:
         List[User]: A list of User objects representing the users.
     """
-    await create_user('test', 'adsf', 'adsf')
+    # await create_user('test', 'adsf', 'adsf')
+    u1 = Users(id=1, username="minhnq", password="password1", email="minhnq@gmail.com")
+    u2 = Users(id=2, username="trangntt", password="password1", email="minhnq@gmail.com")
     return [
-        # User(username="minhnq", password="password1", email="minhnq@gmail.com"),
-        # User(username="trangntt", password="password1", email="minhnq@gmail.com")
+        u1,
+        u2,
     ]
