@@ -10,7 +10,8 @@ VENV_NAME = venv
 # Add new alembic migration
 add-migration:
 	alembic revision -m $(name)
-	
+db-up-all:
+	alembic upgrade head
 
 run:
 	$(PYTHON) -m uvicorn app.main:app --reload
