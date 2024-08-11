@@ -6,6 +6,7 @@ Create Date: 2024-08-06 15:36:32.232094
 
 """
 # pylint: disable=no-member
+# pylint: disable=not-callable
 from typing import Sequence, Union
 
 import sqlalchemy as sa
@@ -27,6 +28,8 @@ def upgrade() -> None:
         sa.Column('username', sa.String(64), nullable=False),
         sa.Column('password', sa.Text(), nullable=False),
         sa.Column('email', sa.Text(), nullable=False),
+        sa.Column('created_date', sa.DateTime(timezone=True), nullable=True),
+        sa.Column('updated_date', sa.DateTime(timezone=True), nullable=True),
     )
     # ### end Alembic commands ###
 

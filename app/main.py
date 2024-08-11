@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -6,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.graphql import schema
 
-# from app.repo.database import db
+os.environ['TZ'] = 'UTC'
 
 
 @asynccontextmanager

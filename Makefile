@@ -12,6 +12,10 @@ add-migration:
 	alembic revision -m $(name)
 db-up-all:
 	alembic upgrade head
+db-down-one:
+	alembic downgrade -1
+db-refresh-current:
+	alembic downgrade -1 && alembic upgrade head
 
 run:
 	$(PYTHON) -m uvicorn app.main:app --reload
