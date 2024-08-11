@@ -8,7 +8,7 @@ from app.graphql.mutation import Mutation
 from app.graphql.query import Query
 from app.graphql.type_scalars import BigInt
 
-schema = strawberry.Schema(
+_schema = strawberry.Schema(
     query=Query,
     mutation=Mutation,
     config=StrawberryConfig(
@@ -17,4 +17,4 @@ schema = strawberry.Schema(
     ),
     scalar_overrides={int: BigInt}
 )
-GraphQLRoute = GraphQLRouter(schema)
+GraphQLRoute = GraphQLRouter(_schema)

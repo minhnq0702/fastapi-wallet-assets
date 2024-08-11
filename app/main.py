@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=unused-argument
 import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.graphql import schema
+from app.graphql import GraphQLRoute
 
 os.environ['TZ'] = 'UTC'
 
 
 @asynccontextmanager
-# pylint: disable=unused-argument
 async def lifespan(fastapp: FastAPI):
     """
     Init database connection.
@@ -28,8 +28,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
-app.include_router(schema.GraphQLRoute, prefix="/graphql", tags=["graphql"])
+app.include_router(GraphQLRoute, prefix="/graphql", tags=["graphql"])
 
 
 @app.get("/")
