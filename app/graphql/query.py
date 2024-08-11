@@ -3,12 +3,12 @@ import typing
 
 import strawberry
 
-from app.graphql.type_user import UserType, list_user
+from app.graphql.type_user import UserType, list_users
 
 
 @strawberry.type
 class Query:
     """GraphQL query object."""
     listUsers: typing.List[UserType] = strawberry.field(
-        resolver=list_user,
+        resolver=list_users,
     )

@@ -7,8 +7,7 @@ import strawberry
 
 from app.graphql.utils import model_to_strawberry
 from app.models.users import Users
-from app.svc.user_svc import create_user as svc_create_user
-from app.svc.user_svc import get_users as svc_get_user
+from app.svc import user_svc
 
 
 @strawberry.experimental.pydantic.type(model=Users)
@@ -28,13 +27,13 @@ class UserCreateType:
     email: str
 
 
-async def list_user(user_ids: typing.Union[typing.List[int], None] = None) -> typing.List[UserType]:
+async def list_users(user_ids: typing.Union[typing.List[int], None] = None) -> typing.List[UserType]:
     """List users
 
     Returns:
         typing.List[UserType]: list of users
     """
-    res = await svc_get_user(user_ids=user_ids or [])
+    res = await user_svc.list_users(user_ids=user_ids or [])
     return [model_to_strawberry(u, UserType) for u in res]
 
 
@@ -49,5 +48,5 @@ async def create_user(user: UserCreateType) -> UserType:
     """
     assert len(user.username) > 0, "username must not be empty"
     assert len(user.password) >= 8, "password must more or equal 8 characters"
-    res = await svc_create_user(user.username, user.password, user.email)
+    res = await user_svc.create_user(user.username, user.password, user.email)
     return model_to_strawberry(res, UserType)

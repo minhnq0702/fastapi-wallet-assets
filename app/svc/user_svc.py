@@ -1,5 +1,5 @@
 """Module contains the service layer for the user module."""
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 import typing
 
 from app.models.users import Users
@@ -22,7 +22,7 @@ async def create_user(username: str, password: str, email: str) -> Users:
     return res
 
 
-async def get_users(user_ids: list[int]) -> typing.List[Users]:
+async def list_users(user_ids: list[int]) -> typing.List[Users]:
     """
     Retrieve a list of users.
 

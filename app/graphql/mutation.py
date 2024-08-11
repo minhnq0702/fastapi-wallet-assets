@@ -5,7 +5,7 @@ import typing
 
 import strawberry
 
-from app.graphql import JSON
+from app.graphql.scalars import JSON
 from app.graphql.type_user import UserType, create_user
 
 _logger = logging.getLogger(__name__)
