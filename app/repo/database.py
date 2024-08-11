@@ -1,12 +1,9 @@
 """Init database connection"""
 # -*- coding: utf-8 -*-
-from typing import Any, AsyncGenerator, Generator
+from typing import Any, AsyncGenerator
 
-# from databases import Database
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlalchemy.orm import declarative_base
-from sqlmodel import Session, SQLModel, create_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 # TODO: load config from .env
@@ -30,4 +27,5 @@ async def get_tx() -> AsyncGenerator[AsyncSession, Any]:
         AsyncSession: Database session
     """
     async with DBSession() as _session:
+        # async with _session.begin():
         yield _session
