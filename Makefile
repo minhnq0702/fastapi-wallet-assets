@@ -8,7 +8,7 @@ PROJECT_NAME = fastapi-wallet-assets
 VENV_NAME = venv
 
 # Add new alembic migration
-add-migration:
+db-add-migration:
 	alembic revision -m $(name)
 db-up-all:
 	alembic upgrade head
