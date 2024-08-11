@@ -5,7 +5,6 @@ import typing
 
 import strawberry
 
-from app.graphql.type_scalars import EpochDateTime
 from app.models.users import Users
 from app.svc import user_svc
 
