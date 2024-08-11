@@ -6,6 +6,7 @@ from strawberry.schema.config import StrawberryConfig
 
 from app.graphql.mutation import Mutation
 from app.graphql.query import Query
+from app.graphql.type_scalars import BigInt
 
 schema = strawberry.Schema(
     query=Query,
@@ -14,5 +15,6 @@ schema = strawberry.Schema(
         auto_camel_case=True,
         # validate_queries=True,
     ),
+    scalar_overrides={int: BigInt}
 )
 GraphQLRoute = GraphQLRouter(schema)

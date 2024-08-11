@@ -19,3 +19,10 @@ EpochDateTime = strawberry.scalar(
     serialize=lambda value: int(value.timestamp()),
     parse_value=lambda value: datetime.fromtimestamp(int(value), pytz.utc),
 )
+
+BigInt = strawberry.scalar(
+    NewType("Int", int),
+    serialize=int,
+    parse_value=str,
+    description="BigInt field",
+)

@@ -35,8 +35,7 @@ async def list_users(user_ids: typing.Union[typing.List[int], None] = None) -> t
         typing.List[UserType]: list of users
     """
     res = await user_svc.list_users(user_ids=user_ids or [])
-    print("tada==>", res)
-    return [UserType.from_pydantic(u) for u in res]
+    return [UserType.from_pydantic(u, extra={"test": 10000000000}) for u in res]
 
 
 async def create_user(user: UserCreateType) -> UserType:
