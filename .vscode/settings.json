@@ -1,14 +1,13 @@
 {
-    "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoImportCompletions": true,
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.autopep8",
-        "editor.rulers": [
-            120
-        ]
-    },
-    "autopep8.args": [
-        "--max-line-length=120"
-    ],
-    "python.analysis.inlayHints.functionReturnTypes": false,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.rulers": [120]
+  },
+  "autopep8.args": ["--max-line-length=120"],
+  "python.analysis.inlayHints.functionReturnTypes": false,
+  "files.exclude": {
+    "**/__pycache__": true
+  },
 }
