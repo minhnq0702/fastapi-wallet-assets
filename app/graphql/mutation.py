@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
 import datetime
 import logging
-import typing
+from typing import Annotated
 
 import strawberry
 
+from app.graphql import type_login
+from app.graphql.type_login import LoginResult
 from app.graphql.type_scalars import JSON
 from app.graphql.type_user import UserType, create_user
 from app.graphql.type_wallet import WalletType, create_wallet
@@ -33,14 +35,14 @@ class Mutation:
             "time": check_time.isoformat()
         })
 
-    # createUsers: typing.Annotated[typing.Union[UserType, None], "Created user"] = strawberry.mutation(
-    #     resolver=create_user,
-    # )
-    create_users: typing.Annotated[typing.Union[UserType, None], "Created User"] = strawberry.mutation(
+    login: Annotated[LoginResult, "Login Result"] = strawberry.mutation(
+        resolver=type_login.login
+    )
+    create_users: Annotated[UserType, "Created User"] = strawberry.mutation(
         resolver=create_user
     )
 
-    create_wallet: typing.Annotated[WalletType, "Created Wallet"] = strawberry.mutation(
+    create_wallet: Annotated[WalletType, "Created Wallet"] = strawberry.mutation(
         resolver=create_wallet
     )
     
