@@ -17,7 +17,7 @@ class WalletType:
 
 
 @strawberry.experimental.pydantic.input(model=Wallets)
-class WalletCreateType:
+class WalletCreateInput:
     """Create wallet type."""
     name: str
     balance: typing.Optional[float] = 0.0
@@ -33,7 +33,7 @@ async def list_wallets() -> typing.List[WalletType]:
     return [WalletType.from_pydantic(w) for w in res]
 
 
-async def create_wallet(payload: WalletCreateType) -> typing.Annotated[WalletType, "Created wallet"]:
+async def create_wallet(payload: WalletCreateInput) -> typing.Annotated[WalletType, "Created wallet"]:
     """GraphQL create new wallet
 
     Returns:
