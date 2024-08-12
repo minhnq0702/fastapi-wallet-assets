@@ -12,14 +12,14 @@ class Users(SQLModel, table=True):
         default=None,
         primary_key=True
     )
-    username: str
+    username: str = Field(max_length=64)
     password: str
     email: str
-    created_date: datetime.datetime = Field(
-        sa_column=sa.Column(sa.DateTime(timezone=True), nullable=True),
+    created_date: datetime.datetime | None = Field(
+        sa_column=sa.Column(sa.DateTime(timezone=True)),
         default_factory=datetime.datetime.now
     )
-    updated_date: datetime.datetime = Field(
-        sa_column=sa.Column(sa.DateTime(timezone=True), nullable=True),
+    updated_date: datetime.datetime | None = Field(
+        sa_column=sa.Column(sa.DateTime(timezone=True)),
         default_factory=datetime.datetime.now
     )

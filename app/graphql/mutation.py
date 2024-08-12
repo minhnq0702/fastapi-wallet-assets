@@ -3,12 +3,11 @@ import datetime
 import logging
 import typing
 
-import pytz
 import strawberry
 
 from app.graphql.type_scalars import JSON
 from app.graphql.type_user import UserType, create_user
-from app.tools import DEFAULT_DATETIME_FORMAT
+from app.graphql.type_wallet import WalletType, create_wallet
 
 _logger = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ class Mutation:
         check_time = datetime.datetime.now()
         return JSON({
             "status": "successfully",
-            "time": check_time.strftime(DEFAULT_DATETIME_FORMAT)
+            "time": check_time.isoformat()
         })
 
     # createUsers: typing.Annotated[typing.Union[UserType, None], "Created user"] = strawberry.mutation(
@@ -39,5 +38,9 @@ class Mutation:
     # )
     create_users: typing.Annotated[typing.Union[UserType, None], "Created User"] = strawberry.mutation(
         resolver=create_user
+    )
+
+    create_wallet: typing.Annotated[WalletType, "Created Wallet"] = strawberry.mutation(
+        resolver=create_wallet
     )
     

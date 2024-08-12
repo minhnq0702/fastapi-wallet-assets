@@ -18,16 +18,16 @@ async def create_user(username: str, password: str, email: str) -> Users:
     Returns:
         User: A User object representing the user.
     """
-    res = await user_repo.create_user(username=username, password=password, email=email)
+    res = await user_repo.create_user(username, password, email)
     return res
 
 
-async def list_users(user_ids: list[int]) -> typing.List[Users]:
+async def list_users(user_ids: list[int]) -> typing.Sequence[Users]:
     """
     Retrieve a list of users.
 
     Returns:
         List[User]: A list of User objects representing the users.
     """
-    res = await user_repo.get_users(user_ids)
+    res = await user_repo.list_users(user_ids)
     return res

@@ -23,6 +23,6 @@ EpochDateTime = strawberry.scalar(
 BigInt = strawberry.scalar(
     NewType("Int", int),
     serialize=int,
-    parse_value=str,
+    parse_value=int,
     description="BigInt field",
 )

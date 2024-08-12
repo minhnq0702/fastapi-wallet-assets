@@ -3,47 +3,51 @@
 import typing
 
 from sqlmodel import col, select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.models.users import Users
 from app.repo import database
 
 
-async def get_users(ids: typing.Union[typing.List[int], None] = None) -> typing.List[Users]:
+@database.with_session
+async def list_users(ids: typing.Union[typing.List[int], None] = None, **kwargs) -> typing.Sequence[Users]:
     """List Users from DB
-
+    Args:
+        ids (list[int]): list of user id
     Returns:
-        typing.List[Users]: _description_
+        typing.List[Users]: list users
     """
-    dbc = database.get_tx()
-    db = await anext(dbc)
-    # tx = await db.connection(execution_options={
+    session: AsyncSession = kwargs["session"]
+    # tx = await session.connection(execution_options={
     #     "isolation_level": "SERIALIZABLE"
     # })
-    query = select(Users)
+    q = select(Users)
     if ids:
-        query = query.where(col(Users.id).in_(ids))
-    res = await db.exec(query, execution_options={
+        q = q.where(col(Users.id).in_(ids))
+    # res = await tx.execute(q)
+    res = await session.exec(q, execution_options={
         "isolation_level": "SERIALIZABLE"
     })
     # await tx.commit()
-    await db.close()
-    return list(res)
+    return res.all()
 
 
-async def create_user(username: str, password: str, email: str) -> Users:
+@database.with_session
+async def create_user(username: str, password: str, email: str, **kwargs) -> Users:
     """Create a new user
 
     Args:
         username (str): Username
         password (str): Password
+        email (str): Email
 
     Returns:
         Users: User object
     """
-    dbc = database.get_tx()
-    db = await anext(dbc)
+    session: AsyncSession = kwargs["session"]
     user = Users(username=username, password=password, email=email)
-    db.add(user)
-    await db.commit()
-    await db.refresh(user)
+    session.add(user)
+    # * must persit and call refresh to fetch new data (ID) from db
+    await session.commit()
+    await session.refresh(user)
     return user

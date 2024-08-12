@@ -11,7 +11,7 @@ from app.svc import user_svc
 
 @strawberry.experimental.pydantic.type(model=Users)
 class UserType:
-    """User schema."""
+    """User type."""
     id: typing.Optional[int]
     username: strawberry.auto
     password: strawberry.auto
@@ -22,7 +22,7 @@ class UserType:
 
 @strawberry.input
 class UserCreateType:
-    """Create user object."""
+    """Create user type."""
     username: str
     password: str
     email: str

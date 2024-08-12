@@ -5,8 +5,10 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlmodel import SQLModel
 
 from app.graphql import GraphQLRoute
+from app.repo.database import engine, init_models
 
 os.environ['TZ'] = 'UTC'
 
@@ -17,6 +19,9 @@ async def lifespan(fastapp: FastAPI):
     Init database connection.
     """
     # TODO do something on life-cycle
+    # async with engine.begin() as conn:
+    #     await conn.run_sync(SQLModel.metadata.create_all)
+    await init_models()
     yield
     # await db.disconnect()
 
