@@ -9,7 +9,7 @@ from app.models.users import Users
 from app.svc import user_svc
 
 
-@strawberry.experimental.pydantic.type(model=Users)
+@strawberry.experimental.pydantic.type(model=Users, name='User')
 class UserType:
     """User type."""
     id: typing.Optional[int]
@@ -21,7 +21,7 @@ class UserType:
 
 
 @strawberry.input
-class UserCreateType:
+class UserCreateInput:
     """Create user type."""
     username: str
     password: str
@@ -38,7 +38,7 @@ async def list_users(user_ids: typing.Union[typing.List[int], None] = None) -> t
     return [UserType.from_pydantic(u) for u in res]
 
 
-async def create_user(user: UserCreateType) -> UserType:
+async def create_user(user: UserCreateInput) -> UserType:
     """Create a new user
 
     Args:
