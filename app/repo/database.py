@@ -1,16 +1,18 @@
 """Init database connection"""
 # -*- coding: utf-8 -*-
 import typing
+from contextlib import contextmanager
 from functools import wraps
-from typing import Any, AsyncGenerator
+from typing import Any, Generator
 
+# from sqlalchemy.engine import create_engine
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlmodel import MetaData, SQLModel
+from sqlmodel import MetaData, Session, SQLModel, create_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 # TODO: load config from .env
 DATABASE_URI = "postgresql+asyncpg://minhnguyen:@localhost/wallet-assets"
-# db = Database(DATABASE_URL)
+sync_engine = create_engine("postgresql://minhnguyen:@localhost/wallet-assets")
 engine = create_async_engine(DATABASE_URI, echo=True)
 
 DBMetadata = MetaData()
@@ -32,23 +34,30 @@ async def init_models():
         await conn.run_sync(SQLModel.metadata.create_all)
 
 
-async def get_tx() -> AsyncGenerator[AsyncSession, Any]:
+@contextmanager
+def get_tx() -> Generator[Session, Any, None]:
     """Get DB session
 
     Yields:
         AsyncSession: Database session
     """
-    async with DBSession() as _session:
-        # async with _session.begin():
+    _session = Session(sync_engine, autocommit=False, autoflush=False)
+    try:
         yield _session
+    except Exception:
+        _session.rollback()
+        raise
+    finally:
+        _session.close()
+
 
 R = typing.TypeVar('R')
 P = typing.ParamSpec('P')
 
 
 def with_session(
-        func: typing.Callable[..., typing.Coroutine[Any, Any, R]]
-    ) -> typing.Callable[..., typing.Coroutine[Any, Any, R]]:
+    func: typing.Callable[..., typing.Coroutine[Any, Any, R]]
+) -> typing.Callable[..., typing.Coroutine[Any, Any, R]]:
     """Wrapper get db session into kwargs
 
     Args:
