@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 import datetime
+import typing
 
 import sqlalchemy as sa
 from sqlalchemy import UniqueConstraint
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
 
+if typing.TYPE_CHECKING:
+    from app.models.users import Users
 
 class Wallets(SQLModel, table=True):
     """Wallets model"""
@@ -22,6 +25,8 @@ class Wallets(SQLModel, table=True):
     owner_id: int = Field(
         foreign_key="users.id",
         nullable=False)
+    owner: "Users" = Relationship(
+        back_populates="wallets")
     active: bool = Field(
         default=True,
     )

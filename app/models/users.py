@@ -3,8 +3,10 @@ import datetime
 import typing
 
 import sqlalchemy as sa
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
 
+if typing.TYPE_CHECKING:
+    from app.models.wallets import Wallets
 
 class Users(SQLModel, table=True):
     """Users model"""
@@ -23,3 +25,5 @@ class Users(SQLModel, table=True):
         sa_column=sa.Column(sa.DateTime(timezone=True)),
         default_factory=datetime.datetime.now
     )
+    wallets: typing.List["Wallets"] = Relationship(
+        back_populates="owner")
