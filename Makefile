@@ -18,9 +18,9 @@ db-refresh-current:
 	alembic downgrade -1 && alembic upgrade head
 
 run:
-	$(PYTHON) -m uvicorn app.main:app --reload
+	$(PYTHON) -m uvicorn app.main:fastapiApp --reload
 	# fastapi dev app/main.py
 
 run-live:
-	$(PYTHON) -m uvicorn app.main:app --workers 2
+	$(PYTHON) -m uvicorn app.main:fastapiApp --workers 2
 	# fastapi run app/main.py

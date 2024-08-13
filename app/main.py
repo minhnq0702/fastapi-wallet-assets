@@ -25,18 +25,18 @@ async def lifespan(fastapp: FastAPI):
     yield
     # await db.disconnect()
 
-app = FastAPI(lifespan=lifespan)
-app.add_middleware(
+fastapiApp = FastAPI(lifespan=lifespan)
+fastapiApp.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
-app.include_router(GraphQLRoute, prefix="/graphql", tags=["graphql"])
+fastapiApp.include_router(GraphQLRoute, prefix="/graphql", tags=["graphql"])
 
 
-@app.get("/")
+@fastapiApp.get("/")
 async def hello_world() -> dict:
     """
     Returns a dictionary with a greeting message.
