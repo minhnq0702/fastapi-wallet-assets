@@ -5,6 +5,7 @@ import typing
 
 import strawberry
 
+from app.graphql.type_wallet import WalletType
 from app.models.users import Users
 from app.svc import user_svc
 
@@ -18,6 +19,7 @@ class UserType:
     email: strawberry.auto
     created_date: strawberry.auto
     updated_date: strawberry.auto
+    wallets: typing.List[WalletType]
 
 
 @strawberry.input
