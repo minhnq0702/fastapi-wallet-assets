@@ -3,6 +3,7 @@
 import typing
 
 import pydantic
+from sqlalchemy.orm import joinedload, selectinload
 from sqlmodel import col, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -17,6 +18,7 @@ class UserFlow(pydantic.BaseModel):
     by_username: typing.Optional[str] = None
 
 
+
 @database.with_session
 async def list_users(ids: typing.Union[typing.List[int], None] = None, **kwargs) -> typing.Sequence[Users]:
     """List Users from DB
@@ -26,18 +28,12 @@ async def list_users(ids: typing.Union[typing.List[int], None] = None, **kwargs)
         typing.List[Users]: list users
     """
     session: AsyncSession = kwargs["session"]
-    # tx = await session.connection(execution_options={
-    #     "isolation_level": "SERIALIZABLE"
-    # })
-    q = select(Users)
+    q = select(Users).options(selectinload(Users.wallets)) # type: ignore
     if ids:
         q = q.where(col(Users.id).in_(ids))
-    # res = await tx.execute(q)
-    res = await session.exec(q, execution_options={
-        "isolation_level": "SERIALIZABLE"
-    })
-    # await tx.commit()
-    return res.all()
+    res = await session.exec(q)
+    users = res.all()
+    return users
 
 
 @database.with_session

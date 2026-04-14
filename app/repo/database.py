@@ -1,9 +1,8 @@
 """Init database connection"""
 # -*- coding: utf-8 -*-
-import typing
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Generator
+from typing import Any, Callable, Coroutine, Generator, ParamSpec, TypeVar
 
 # from sqlalchemy.engine import create_engine
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
@@ -51,26 +50,31 @@ def get_tx() -> Generator[Session, Any, None]:
         _session.close()
 
 
-R = typing.TypeVar('R')
-P = typing.ParamSpec('P')
+R = TypeVar('R')
+P = ParamSpec('P')
 
 
 def with_session(
-    func: typing.Callable[..., typing.Coroutine[Any, Any, R]]
-) -> typing.Callable[..., typing.Coroutine[Any, Any, R]]:
+    func: Callable[..., Coroutine[Any, Any, R]]
+) -> Callable[..., Coroutine[Any, Any, R]]:
     """Wrapper get db session into kwargs
 
     Args:
-        func (typing.Callable[..., typing.Coroutine[Any, Any, Any]]): _description_
+        func (Callable[..., Coroutine[Any, Any, Any]]): _description_
 
     Returns:
-        typing.Callable[..., typing.Coroutine[Any, Any, Any]]: _description_
+        Callable[..., Coroutine[Any, Any, Any]]: _description_
     """
     @wraps(func)
     async def func_wrap(*args: P.args, **kwargs: P.kwargs):
         """
         Wrap function with db session
         """
+        _session = kwargs.pop("session", None)
+        print("existing===>", _session)
+        if _session:
+            res = await func(*args, session=_session, **kwargs)
+            return res
         async with DBSession() as _session:
             res = await func(*args, session=_session, **kwargs)
             return res

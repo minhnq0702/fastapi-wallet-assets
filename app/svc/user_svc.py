@@ -4,6 +4,7 @@ from typing import Optional, Sequence
 
 from app.models.users import Users
 from app.repo import user_repo
+from app.repo.database import get_tx
 
 
 async def create_user(username: str, password: str, email: str) -> Users:
@@ -29,7 +30,8 @@ async def list_users(user_ids: list[int]) -> Sequence[Users]:
     Returns:
         List[User]: A list of User objects representing the users.
     """
-    res = await user_repo.list_users(user_ids)
+    with get_tx() as session:
+        res = await user_repo.list_users(user_ids, session=session)
     return res
 
 
